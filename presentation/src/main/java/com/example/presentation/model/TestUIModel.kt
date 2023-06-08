@@ -1,4 +1,4 @@
-package com.example.shoppingmall.model
+package com.example.presentation.model
 
 class TestUIModel
 
