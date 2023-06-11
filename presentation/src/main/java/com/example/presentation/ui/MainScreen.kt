@@ -2,9 +2,14 @@ package com.example.presentation.ui
 
 
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -16,10 +21,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.presentation.R
 import com.example.presentation.ui.theme.ShoppingMallTheme
 
-sealed class MainNavigationItem(var route: String, var name: String) {
-    object Main : MainNavigationItem("Main", "Main")
-    object Category : MainNavigationItem("Category", "Category")
-    object MyPage : MainNavigationItem("MyPage", "MyPage")
+sealed class MainNavigationItem(val route: String, val icon: ImageVector, val name: String) {
+    object Main : MainNavigationItem("Main", Icons.Filled.Home,"Main")
+    object Category : MainNavigationItem("Category", Icons.Filled.Star,"Category")
+    object MyPage : MainNavigationItem("MyPage", Icons.Filled.AccountBox,"MyPage")
 
 }
 
@@ -54,16 +59,13 @@ fun MainBottomNavigationBar(navController: NavController) {
         MainNavigationItem.MyPage,
     )
 
-    BottomNavigation(
-        backgroundColor = Color(0xffff0000),
-        contentColor = Color(0xff00ff00)
-    ) {
+    BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
         bottomNavigationItems.forEach { item ->
             BottomNavigationItem(
-                icon = { Icon(painterResource(id = R.drawable.ic_launcher_foreground), item.route) },
+                icon = { Icon(item.icon, item.route) },
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
