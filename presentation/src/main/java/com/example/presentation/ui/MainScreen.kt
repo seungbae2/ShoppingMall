@@ -5,12 +5,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -18,7 +17,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.presentation.R
 import com.example.presentation.ui.theme.ShoppingMallTheme
 
 sealed class MainNavigationItem(val route: String, val icon: ImageVector, val name: String) {
@@ -42,6 +40,9 @@ fun MainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
+        topBar = {
+            Header()
+        },
         scaffoldState = scaffoldState,
         bottomBar = {
             MainBottomNavigationBar(navController)
@@ -49,6 +50,19 @@ fun MainScreen() {
     ) {
         MainNavigationScreen(navController = navController)
     }
+}
+
+@Composable
+fun Header() {
+    TopAppBar(
+        title = { Text("My App") },
+        actions = {
+            IconButton(onClick = {}) {
+                Icon(Icons.Filled.Search, "SearchIcon")
+                
+            }
+        }
+    )
 }
 
 @Composable
