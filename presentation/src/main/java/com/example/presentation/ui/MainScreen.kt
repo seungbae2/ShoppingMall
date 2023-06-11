@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -18,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.ui.theme.ShoppingMallTheme
+import com.example.presentation.viewmodel.MainViewModel
 
 sealed class MainNavigationItem(val route: String, val icon: ImageVector, val name: String) {
     object Main : MainNavigationItem("Main", Icons.Filled.Home,"Main")
@@ -36,12 +38,13 @@ fun DefaultPreview() {
 
 @Composable
 fun MainScreen() {
+    val viewModel = hiltViewModel<MainViewModel>()
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
 
     Scaffold(
         topBar = {
-            Header()
+            Header(viewModel)
         },
         scaffoldState = scaffoldState,
         bottomBar = {
@@ -53,11 +56,13 @@ fun MainScreen() {
 }
 
 @Composable
-fun Header() {
+fun Header(viewModel : MainViewModel) {
     TopAppBar(
         title = { Text("My App") },
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                viewModel.openSearchForm()
+            }) {
                 Icon(Icons.Filled.Search, "SearchIcon")
                 
             }
