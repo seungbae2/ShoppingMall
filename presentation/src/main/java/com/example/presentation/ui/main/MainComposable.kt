@@ -7,12 +7,10 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.domain.model.Banner
-import com.example.domain.model.BannerList
-import com.example.domain.model.ModelType
-import com.example.domain.model.Product
+import com.example.domain.model.*
 import com.example.presentation.ui.component.BannerCard
 import com.example.presentation.ui.component.BannerListCard
+import com.example.presentation.ui.component.CarouselCard
 import com.example.presentation.ui.component.ProductCard
 import com.example.presentation.viewmodel.MainViewModel
 
@@ -31,15 +29,24 @@ fun MainComposable(viewModel : MainViewModel) {
         }) {
             when (val item = modelList[it]) {
                 is Banner -> {
-                    BannerCard(model = item)
-                }
-                is Product -> {
-                    ProductCard(product = item) {
-
+                    BannerCard(model = item) { model ->
+                        viewModel.openBanner(model)
                     }
                 }
                 is BannerList -> {
-                    BannerListCard(model = item)
+                    BannerListCard(model = item) { model ->
+                        viewModel.openBannerList(model)
+                    }
+                }
+                is Product -> {
+                    ProductCard(product = item) { model ->
+                        viewModel.openProduct(model)
+                    }
+                }
+                is Carousel -> {
+                    CarouselCard(model = item) { model ->
+                        viewModel.openCarouselProduct(model)
+                    }
                 }
             }
         }
@@ -49,6 +56,6 @@ fun MainComposable(viewModel : MainViewModel) {
 private fun getSpanCountByType(type: ModelType, defaultColumnCount: Int) : Int {
     return when(type) {
         ModelType.PRODUCT -> 1
-        ModelType.BANNER, ModelType.BANNER_LIST -> defaultColumnCount
+        ModelType.BANNER, ModelType.BANNER_LIST, ModelType.CAROUSEL -> defaultColumnCount
     }
 }

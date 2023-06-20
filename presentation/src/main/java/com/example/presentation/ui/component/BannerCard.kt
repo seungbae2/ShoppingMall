@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -15,14 +16,16 @@ import androidx.compose.ui.unit.dp
 import com.example.domain.model.Banner
 import com.example.presentation.R
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BannerCard(model: Banner) {
+fun BannerCard(model: Banner, onClick: (Banner) -> Unit) {
     Card (
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .shadow(20.dp)
+            .shadow(20.dp),
+        onClick = {onClick(model)}
     ) {
         Image(
             painter = painterResource(id = R.drawable.product_image),
