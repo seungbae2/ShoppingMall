@@ -26,6 +26,7 @@ class BaseModelDeserializer: JsonDeserializer<BaseModel> {
             ModelType.PRODUCT -> gson.fromJson(root, Product::class.java)
             ModelType.BANNER_LIST -> gson.fromJson(root, BannerList::class.java)
             ModelType.CAROUSEL -> gson.fromJson(root, Carousel::class.java)
+            ModelType.RANKING -> gson.fromJson(root, Ranking::class.java)
         }
     }
 }

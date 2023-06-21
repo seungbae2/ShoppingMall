@@ -8,10 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.domain.model.*
-import com.example.presentation.ui.component.BannerCard
-import com.example.presentation.ui.component.BannerListCard
-import com.example.presentation.ui.component.CarouselCard
-import com.example.presentation.ui.component.ProductCard
+import com.example.presentation.ui.component.*
 import com.example.presentation.viewmodel.MainViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -28,25 +25,23 @@ fun MainComposable(viewModel : MainViewModel) {
             GridItemSpan(spanCount)
         }) {
             when (val item = modelList[it]) {
-                is Banner -> {
-                    BannerCard(model = item) { model ->
-                        viewModel.openBanner(model)
-                    }
+                is Banner -> BannerCard(model = item) { model ->
+                    viewModel.openBanner(model)
                 }
-                is BannerList -> {
-                    BannerListCard(model = item) { model ->
-                        viewModel.openBannerList(model)
-                    }
+
+                is BannerList -> BannerListCard(model = item) { model ->
+                    viewModel.openBannerList(model)
                 }
-                is Product -> {
-                    ProductCard(product = item) { model ->
-                        viewModel.openProduct(model)
-                    }
+
+                is Product -> ProductCard(product = item) { model ->
+                    viewModel.openProduct(model)
                 }
-                is Carousel -> {
-                    CarouselCard(model = item) { model ->
-                        viewModel.openCarouselProduct(model)
-                    }
+
+                is Carousel -> CarouselCard(model = item) { model ->
+                    viewModel.openCarouselProduct(model)
+                }
+                is Ranking -> RankingCard(model = item) { model ->
+                    viewModel.openRankingProduct(model)
                 }
             }
         }
@@ -56,6 +51,7 @@ fun MainComposable(viewModel : MainViewModel) {
 private fun getSpanCountByType(type: ModelType, defaultColumnCount: Int) : Int {
     return when(type) {
         ModelType.PRODUCT -> 1
-        ModelType.BANNER, ModelType.BANNER_LIST, ModelType.CAROUSEL -> defaultColumnCount
+        ModelType.BANNER, ModelType.BANNER_LIST,
+        ModelType.CAROUSEL, ModelType.RANKING -> defaultColumnCount
     }
 }
