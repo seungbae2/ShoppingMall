@@ -18,7 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.presentation.ui.main.MainComposable
+import com.example.presentation.ui.main.CategoryScreen
+import com.example.presentation.ui.main.HomeScreen
 import com.example.presentation.ui.theme.ShoppingMallTheme
 import com.example.presentation.viewmodel.MainViewModel
 
@@ -107,10 +108,10 @@ fun MainBottomNavigationBar(navController: NavController) {
 fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = MainNavigationItem.Main.route) {
         composable(MainNavigationItem.Main.route) {
-            MainComposable(viewModel)
+            HomeScreen(viewModel)
         }
         composable(MainNavigationItem.Category.route) {
-            Text(text = "Hello Category")
+            CategoryScreen(viewModel)
         }
         composable(MainNavigationItem.MyPage.route) {
             Text(text = "Hello MyPage")

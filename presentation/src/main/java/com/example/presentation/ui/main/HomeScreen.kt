@@ -13,7 +13,7 @@ import com.example.presentation.viewmodel.MainViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainComposable(viewModel : MainViewModel) {
+fun HomeScreen(viewModel : MainViewModel) {
     val modelList by viewModel.modelList.collectAsState(initial = listOf())
     val columnCount by viewModel.columnCount.collectAsState()
 
