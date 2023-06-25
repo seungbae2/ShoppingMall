@@ -23,12 +23,6 @@ import com.example.presentation.ui.main.HomeScreen
 import com.example.presentation.ui.theme.ShoppingMallTheme
 import com.example.presentation.viewmodel.MainViewModel
 
-sealed class MainNavigationItem(val route: String, val icon: ImageVector, val name: String) {
-    object Main : MainNavigationItem("Main", Icons.Filled.Home,"Main")
-    object Category : MainNavigationItem("Category", Icons.Filled.Star,"Category")
-    object MyPage : MainNavigationItem("MyPage", Icons.Filled.AccountBox,"MyPage")
-
-}
 
 @Preview(showBackground = true)
 @Composable
@@ -44,13 +38,19 @@ fun MainScreen() {
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
 
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+
     Scaffold(
         topBar = {
             Header(viewModel)
         },
         scaffoldState = scaffoldState,
         bottomBar = {
-            MainBottomNavigationBar(navController)
+            if(NavigationItem.MainNav.isMainRoute(currentRoute)) {
+                MainBottomNavigationBar(navController, currentRoute)
+            }
         }
     ) {
         MainNavigationScreen(viewModel = viewModel, navController = navController)
@@ -73,16 +73,14 @@ fun Header(viewModel : MainViewModel) {
 }
 
 @Composable
-fun MainBottomNavigationBar(navController: NavController) {
+fun MainBottomNavigationBar(navController: NavController, currentRoute: String?) {
     val bottomNavigationItems = listOf(
-        MainNavigationItem.Main,
-        MainNavigationItem.Category,
-        MainNavigationItem.MyPage,
+        NavigationItem.MainNav.Home,
+        NavigationItem.MainNav.Category,
+        NavigationItem.MainNav.MyPage,
     )
 
     BottomNavigation {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
 
         bottomNavigationItems.forEach { item ->
             BottomNavigationItem(
@@ -106,14 +104,17 @@ fun MainBottomNavigationBar(navController: NavController) {
 
 @Composable
 fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostController) {
-    NavHost(navController = navController, startDestination = MainNavigationItem.Main.route) {
-        composable(MainNavigationItem.Main.route) {
+    NavHost(navController = navController, startDestination = NavigationRouteName.MAIN_HOME) {
+        composable(NavigationRouteName.MAIN_HOME) {
             HomeScreen(viewModel)
         }
-        composable(MainNavigationItem.Category.route) {
+        composable(NavigationRouteName.MAIN_CATEGORY) {
             CategoryScreen(viewModel)
         }
-        composable(MainNavigationItem.MyPage.route) {
+        composable(NavigationRouteName.MAIN_MY_PAGE) {
+            Text(text = "Hello MyPage")
+        }
+        composable(NavigationRouteName.CATEGORY) {
             Text(text = "Hello MyPage")
         }
     }
