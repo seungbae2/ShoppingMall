@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ProductDataSource @Inject constructor(
     @ApplicationContext private val context: Context
 ){
-    fun getProducts(): Flow<List<Product>> = flow {
+    fun getProducts(): Flow<List<BaseModel>> = flow {
         val inputStream = context.assets.open("product_list.json")
         val inputStreamReader = InputStreamReader(inputStream)
         val jsonString = inputStreamReader.readText()
