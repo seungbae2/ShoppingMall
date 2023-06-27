@@ -9,6 +9,7 @@ import com.example.domain.model.Category
 import com.example.domain.model.Product
 import com.example.domain.usecase.CategoryUseCase
 import com.example.domain.usecase.MainUseCase
+import com.example.presentation.delegate.ProductDelegate
 import com.example.presentation.ui.NavigationRouteName
 import com.example.presentation.utils.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     mainUseCase: MainUseCase,
     categoryUseCase: CategoryUseCase
-) : ViewModel() {
+) : ViewModel(), ProductDelegate {
 
     private val _columnCount = MutableStateFlow(DEFAULT_COLUMN_COUNT)
     val columnCount : StateFlow<Int> = _columnCount
@@ -38,7 +39,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun openProduct(product: Product) {
+    override fun openProduct(product: Product) {
 
     }
 
