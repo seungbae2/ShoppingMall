@@ -1,5 +1,7 @@
 package com.example.presentation.model
 
-abstract class PresentationVM {
+import com.example.domain.model.BaseModel
+
+abstract class PresentationVM(model: BaseModel) {
 
 }

@@ -9,6 +9,8 @@ import com.example.domain.model.Category
 import com.example.domain.model.Product
 import com.example.domain.usecase.CategoryUseCase
 import com.example.domain.usecase.MainUseCase
+import com.example.presentation.delegate.BannerDelegate
+import com.example.presentation.delegate.CategoryDelegate
 import com.example.presentation.delegate.ProductDelegate
 import com.example.presentation.ui.NavigationRouteName
 import com.example.presentation.utils.NavigationUtils
@@ -22,7 +24,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     mainUseCase: MainUseCase,
     categoryUseCase: CategoryUseCase
-) : ViewModel(), ProductDelegate {
+) : ViewModel(), ProductDelegate, BannerDelegate, CategoryDelegate{
 
     private val _columnCount = MutableStateFlow(DEFAULT_COLUMN_COUNT)
     val columnCount : StateFlow<Int> = _columnCount
@@ -43,27 +45,17 @@ class MainViewModel @Inject constructor(
 
     }
 
-    fun openCarouselProduct(product: Product) {
+    override fun openBanner(bannerId: String) {
 
     }
 
-    fun openBanner(banner: Banner) {
-
-    }
-
-    fun openBannerList(bannerList: BannerList) {
-
-    }
-
-    fun openRankingProduct(product: Product) {
-
-    }
-
-    fun openCategory(navHostController: NavHostController, category: Category) {
+    override fun openCategory(navHostController: NavHostController, category: Category) {
         NavigationUtils.navigate(navHostController, NavigationRouteName.CATEGORY, category)
     }
 
     companion object {
         private const val DEFAULT_COLUMN_COUNT = 2
     }
+
+
 }
