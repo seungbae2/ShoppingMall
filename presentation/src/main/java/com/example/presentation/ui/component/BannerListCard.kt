@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.domain.model.BannerList
 import com.example.presentation.R
+import com.example.presentation.model.BannerListVM
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -27,19 +28,19 @@ import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun BannerListCard(model: BannerList, onClick: (BannerList) -> Unit) {
+fun BannerListCard(presentationVM: BannerListVM) {
     val pagerState = rememberPagerState()
     LaunchedEffect(key1 = pagerState) {
         autoScrollInfinity(pagerState)
     }
-    HorizontalPager(count = model.imageList.size, state = pagerState) {
+    HorizontalPager(count = presentationVM.model.imageList.size, state = pagerState) {
         Card (
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
                 .shadow(20.dp),
-            onClick = { onClick(model) }
+            onClick = { presentationVM.openBannerList(presentationVM.model.bannerId) }
         ) {
             Image(
                 painter = painterResource(id = R.drawable.product_image),
