@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavHostController
 import com.example.domain.model.*
 import com.example.presentation.model.*
 import com.example.presentation.ui.component.*
@@ -14,7 +15,7 @@ import com.example.presentation.viewmodel.MainViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainHomeScreen(viewModel : MainViewModel) {
+fun MainHomeScreen(navHostController: NavHostController, viewModel : MainViewModel) {
     val modelList by viewModel.modelList.collectAsState(initial = listOf())
     val columnCount by viewModel.columnCount.collectAsState()
 
@@ -28,9 +29,9 @@ fun MainHomeScreen(viewModel : MainViewModel) {
             when (val item = modelList[it]) {
                 is BannerVM -> BannerCard(presentationVM = item)
                 is BannerListVM -> BannerListCard(presentationVM = item)
-                is ProductVM -> ProductCard(presentationVM = item)
-                is CarouselVM -> CarouselCard(presentationVM = item)
-                is RankingVM -> RankingCard(presentationVM = item)
+                is ProductVM -> ProductCard(navHostController = navHostController, presentationVM = item)
+                is CarouselVM -> CarouselCard(navHostController = navHostController, presentationVM = item)
+                is RankingVM -> RankingCard(navHostController = navHostController, presentationVM = item)
             }
         }
     }

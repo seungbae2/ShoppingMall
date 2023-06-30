@@ -17,9 +17,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.domain.model.Category
+import com.example.domain.model.Product
 import com.example.presentation.ui.category.CategoryScreen
 import com.example.presentation.ui.main.MainCategoryScreen
 import com.example.presentation.ui.main.MainHomeScreen
+import com.example.presentation.ui.product_detail.ProductDetailScreen
 import com.example.presentation.ui.theme.ShoppingMallTheme
 import com.example.presentation.viewmodel.MainViewModel
 import com.google.gson.Gson
@@ -107,7 +109,7 @@ fun MainBottomNavigationBar(navController: NavController, currentRoute: String?)
 fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavigationRouteName.MAIN_HOME) {
         composable(NavigationRouteName.MAIN_HOME) {
-            MainHomeScreen(viewModel)
+            MainHomeScreen(navController, viewModel)
         }
         composable(NavigationRouteName.MAIN_CATEGORY) {
             MainCategoryScreen(viewModel, navController)
@@ -121,7 +123,16 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
             val categoryString = it.arguments?.getString("category")
             val category = Gson().fromJson(categoryString, Category::class.java)
             if(category != null) {
-                CategoryScreen(category = category)
+                CategoryScreen(category = category, navHostController = navController)
+            }
+        }
+        composable(NavigationRouteName.PRODUCT_DETAIL+"/{product}",
+        arguments = listOf(navArgument("product"){ type = NavType.StringType })
+        ) {
+            val productString = it.arguments?.getString("product")
+
+            if(productString != null) {
+                ProductDetailScreen(productString)
             }
         }
     }
