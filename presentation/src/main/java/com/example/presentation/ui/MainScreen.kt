@@ -47,7 +47,7 @@ fun MainScreen() {
 
     Scaffold(
         topBar = {
-            Header(viewModel)
+            Header(viewModel = viewModel, navController = navController)
         },
         scaffoldState = scaffoldState,
         bottomBar = {
@@ -61,12 +61,12 @@ fun MainScreen() {
 }
 
 @Composable
-fun Header(viewModel : MainViewModel) {
+fun Header(viewModel : MainViewModel, navController: NavHostController) {
     TopAppBar(
         title = { Text("My App") },
         actions = {
             IconButton(onClick = {
-                viewModel.openSearchForm()
+                viewModel.openSearchForm(navController)
             }) {
                 Icon(Icons.Filled.Search, "SearchIcon")
                 
