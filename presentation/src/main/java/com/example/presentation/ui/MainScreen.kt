@@ -17,11 +17,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.domain.model.Category
-import com.example.domain.model.Product
 import com.example.presentation.ui.category.CategoryScreen
 import com.example.presentation.ui.main.MainCategoryScreen
 import com.example.presentation.ui.main.MainHomeScreen
 import com.example.presentation.ui.product_detail.ProductDetailScreen
+import com.example.presentation.ui.search.SearchScreen
 import com.example.presentation.ui.theme.ShoppingMallTheme
 import com.example.presentation.viewmodel.MainViewModel
 import com.google.gson.Gson
@@ -47,7 +47,9 @@ fun MainScreen() {
 
     Scaffold(
         topBar = {
-            Header(viewModel = viewModel, navController = navController)
+            if(NavigationItem.MainNav.isMainRoute(currentRoute)) {
+                MainHeader(viewModel = viewModel, navController = navController)
+            }
         },
         scaffoldState = scaffoldState,
         bottomBar = {
@@ -61,7 +63,7 @@ fun MainScreen() {
 }
 
 @Composable
-fun Header(viewModel : MainViewModel, navController: NavHostController) {
+fun MainHeader(viewModel : MainViewModel, navController: NavHostController) {
     TopAppBar(
         title = { Text("My App") },
         actions = {
@@ -134,6 +136,9 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
             if(productString != null) {
                 ProductDetailScreen(productString)
             }
+        }
+        composable(NavigationRouteName.SEARCH) {
+            SearchScreen()
         }
     }
 }
