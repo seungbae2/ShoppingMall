@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(
     val searchResult : StateFlow<List<ProductVM>> = _searchResult
     val searchKeywords = useCase.getSearchKeywords()
 
-    suspend fun search(keyword: String) {
+    fun search(keyword: String) {
         viewModelScope.launch {
             useCase.search(SearchKeyword(keyword = keyword)).collectLatest {
                 _searchResult.emit(it.map(::convertToProductVM))

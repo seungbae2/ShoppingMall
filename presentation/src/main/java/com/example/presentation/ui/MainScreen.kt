@@ -138,7 +138,7 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
             }
         }
         composable(NavigationRouteName.SEARCH) {
-            SearchScreen()
+            SearchScreen(navController)
         }
     }
 }
