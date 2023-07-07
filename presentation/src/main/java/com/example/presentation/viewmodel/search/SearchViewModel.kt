@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.domain.model.Product
-import com.example.domain.model.SearchKeyword
+import com.example.domain.model.SearchFilter
 import com.example.domain.usecase.SearchUseCase
 import com.example.presentation.delegate.ProductDelegate
 import com.example.presentation.model.ProductVM
@@ -22,15 +22,31 @@ class SearchViewModel @Inject constructor(
     private val useCase: SearchUseCase
 ) : ViewModel(), ProductDelegate{
 
+    private val searchManager = SearchManager()
     private val _searchResult = MutableStateFlow<List<ProductVM>>(listOf())
     val searchResult : StateFlow<List<ProductVM>> = _searchResult
     val searchKeywords = useCase.getSearchKeywords()
+    val searchFilters = searchManager.filters
 
     fun search(keyword: String) {
         viewModelScope.launch {
-            useCase.search(SearchKeyword(keyword = keyword)).collectLatest {
-                _searchResult.emit(it.map(::convertToProductVM))
-            }
+            searchInternal(keyword)
+        }
+    }
+
+    fun updateFilter(filter: SearchFilter) {
+        viewModelScope.launch {
+            searchManager.updateFilter(filter)
+
+            searchInternal()
+        }
+    }
+
+    private suspend fun searchInternal(newSearchKeyword: String = "") {
+        useCase.search(searchManager.searchKeyword, searchManager.currentFilters()).collectLatest {
+            if(newSearchKeyword.isNotEmpty()) searchManager.initSearchManager(newSearchKeyword, it)
+
+            _searchResult.emit(it.map(::convertToProductVM))
         }
     }
 
