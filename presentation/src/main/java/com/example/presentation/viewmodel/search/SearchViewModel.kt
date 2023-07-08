@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.domain.model.Product
 import com.example.domain.model.SearchFilter
+import com.example.domain.model.SearchKeyword
 import com.example.domain.usecase.SearchUseCase
 import com.example.presentation.delegate.ProductDelegate
 import com.example.presentation.model.ProductVM
@@ -30,7 +31,7 @@ class SearchViewModel @Inject constructor(
 
     fun search(keyword: String) {
         viewModelScope.launch {
-            searchInternal(keyword)
+            searchInternalNewSearchKeyword(keyword)
         }
     }
 
@@ -42,10 +43,17 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private suspend fun searchInternal(newSearchKeyword: String = "") {
+    private suspend fun searchInternal() {
         useCase.search(searchManager.searchKeyword, searchManager.currentFilters()).collectLatest {
-            if(newSearchKeyword.isNotEmpty()) searchManager.initSearchManager(newSearchKeyword, it)
+            _searchResult.emit(it.map(::convertToProductVM))
+        }
+    }
 
+    private suspend fun searchInternalNewSearchKeyword(newSearchKeyword: String = "") {
+        searchManager.clearFilter()
+
+        useCase.search(SearchKeyword(newSearchKeyword), searchManager.currentFilters()).collectLatest {
+            searchManager.initSearchManager(newSearchKeyword, it)
             _searchResult.emit(it.map(::convertToProductVM))
         }
     }
