@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "383704190935",
+    "project_id": "shopingmall-73beb",
+    "storage_bucket": "shopingmall-73beb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383704190935:android:0cdcf4e5b8831199640592",
+        "android_client_info": {
+          "package_name": "com.example.shoppingmall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383704190935-jfoal9m9c8lg3lo0hdbcvoslk47qt08b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shoppingmall",
+            "certificate_hash": "162def2ff5355155312d0ce7ab96fa36db816321"
+          }
+        },
+        {
+          "client_id": "383704190935-ur1r6hbjortkiiq1sve2bvbtkt2hpj3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX0kZxOeLm7yRCYMUCAD9ypuopTT3iWGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383704190935-ur1r6hbjortkiiq1sve2bvbtkt2hpj3o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
