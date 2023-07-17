@@ -2,8 +2,10 @@ package com.example.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.domain.model.*
+import com.example.domain.usecase.AccountUseCase
 import com.example.domain.usecase.CategoryUseCase
 import com.example.domain.usecase.MainUseCase
 import com.example.presentation.delegate.BannerDelegate
@@ -22,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     mainUseCase: MainUseCase,
-    categoryUseCase: CategoryUseCase
+    categoryUseCase: CategoryUseCase,
+    private val accountUseCase: AccountUseCase
 ) : ViewModel(), ProductDelegate, BannerDelegate, CategoryDelegate{
 
     private val _columnCount = MutableStateFlow(DEFAULT_COLUMN_COUNT)
@@ -30,8 +33,21 @@ class MainViewModel @Inject constructor(
 
     val modelList = mainUseCase.getModelList().map(::convertToPresentationVM)
     val categories = categoryUseCase.getCategories()
+    val accountInfo = accountUseCase.getAccountInfo()
     fun openSearchForm(navHostController: NavHostController) {
         NavigationUtils.navigate(navHostController, NavigationRouteName.SEARCH)
+    }
+
+    fun signInGoogle(accountInfo: AccountInfo) {
+        viewModelScope.launch {
+            accountUseCase.signInGoogle(accountInfo)
+        }
+    }
+
+    fun signOutGoogle() {
+        viewModelScope.launch {
+            accountUseCase.signOutGoogle()
+        }
     }
 
     fun updateColumnCount(count : Int) {

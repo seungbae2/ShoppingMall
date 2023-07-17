@@ -12,12 +12,17 @@ import androidx.compose.ui.Modifier
 import com.example.presentation.ui.theme.ShoppingMallTheme
 import com.example.presentation.viewmodel.MainViewModel
 import com.example.presentation.viewmodel.TempViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel : MainViewModel by viewModels()
+
+    @Inject
+    lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainScreen()
+                    MainScreen(googleSignInClient)
                 }
             }
         }

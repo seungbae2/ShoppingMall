@@ -24,19 +24,12 @@ import com.example.presentation.ui.product_detail.ProductDetailScreen
 import com.example.presentation.ui.search.SearchScreen
 import com.example.presentation.ui.theme.ShoppingMallTheme
 import com.example.presentation.viewmodel.MainViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.gson.Gson
 
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    ShoppingMallTheme {
-        MainScreen()
-    }
-}
-
-@Composable
-fun MainScreen() {
+fun MainScreen(googleSignInClient: GoogleSignInClient) {
     val viewModel = hiltViewModel<MainViewModel>()
     val scaffoldState = rememberScaffoldState()
     val navController = rememberNavController()
