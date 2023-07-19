@@ -20,6 +20,7 @@ import com.example.domain.model.Category
 import com.example.presentation.ui.category.CategoryScreen
 import com.example.presentation.ui.main.MainCategoryScreen
 import com.example.presentation.ui.main.MainHomeScreen
+import com.example.presentation.ui.main.MyPageScreen
 import com.example.presentation.ui.product_detail.ProductDetailScreen
 import com.example.presentation.ui.search.SearchScreen
 import com.example.presentation.ui.theme.ShoppingMallTheme
@@ -51,7 +52,7 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
             }
         }
     ) {
-        MainNavigationScreen(viewModel = viewModel, navController = navController)
+        MainNavigationScreen(viewModel = viewModel, navController = navController, googleSignInClient)
     }
 }
 
@@ -101,7 +102,7 @@ fun MainBottomNavigationBar(navController: NavController, currentRoute: String?)
 }
 
 @Composable
-fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostController) {
+fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostController, googleSignInClient: GoogleSignInClient) {
     NavHost(navController = navController, startDestination = NavigationRouteName.MAIN_HOME) {
         composable(NavigationRouteName.MAIN_HOME) {
             MainHomeScreen(navController, viewModel)
@@ -110,7 +111,7 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
             MainCategoryScreen(viewModel, navController)
         }
         composable(NavigationRouteName.MAIN_MY_PAGE) {
-            Text(text = "Hello MyPage")
+            MyPageScreen(viewModel = viewModel, googleSignInClient = googleSignInClient)
         }
         composable(NavigationRouteName.CATEGORY + "/{category}",
         arguments = listOf(navArgument("category") { type = NavType.StringType})

@@ -5,10 +5,21 @@ import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.example.domain.model.AccountInfo
 import com.example.presentation.viewmodel.MainViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -34,6 +45,43 @@ fun MyPageScreen(
             if(indent != null) {
                 val task : Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(indent)
                 handleSignInResult(context, task, viewModel, firebaseAuth)
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(30.dp)
+    ) {
+        if (accountInfo != null) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "로그인 유저: ${accountInfo?.name}",
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.weight(1f)
+                )
+
+                Button(
+                    onClick = {
+                        viewModel.signOutGoogle()
+                        firebaseAuth.signOut()
+                    }
+                ) {
+                    Text(text="로그아웃")
+                }
+            }
+        } else {
+            Button(
+                onClick = {
+                    startForResult.launch(googleSignInClient.signInIntent)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text="로그인")
             }
         }
     }
