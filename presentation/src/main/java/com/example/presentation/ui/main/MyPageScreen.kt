@@ -28,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.kakao.sdk.user.UserApiClient
 
 @Composable
 fun MyPageScreen(
@@ -81,12 +82,21 @@ fun MyPageScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text="로그인")
+                Text(text="구글 로그인")
+            }
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text="카카오 로그인")
             }
         }
     }
-
 }
+
+
 
 private fun handleSignInResult(
     context: Context,
