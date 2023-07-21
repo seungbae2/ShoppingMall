@@ -2,7 +2,6 @@ package com.example.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.domain.model.*
 import com.example.domain.usecase.AccountUseCase
@@ -38,9 +37,9 @@ class MainViewModel @Inject constructor(
         NavigationUtils.navigate(navHostController, NavigationRouteName.SEARCH)
     }
 
-    fun signInGoogle(accountInfo: AccountInfo) {
+    fun signIn(accountInfo: AccountInfo) {
         viewModelScope.launch {
-            accountUseCase.signInGoogle(accountInfo)
+            accountUseCase.signIn(accountInfo)
         }
     }
 

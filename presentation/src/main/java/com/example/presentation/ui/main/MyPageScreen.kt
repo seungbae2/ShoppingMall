@@ -2,6 +2,7 @@ package com.example.presentation.ui.main
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +29,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.kakao.sdk.auth.model.OAuthToken
+import com.kakao.sdk.common.model.ClientError
+import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 
 @Composable
@@ -96,7 +100,41 @@ fun MyPageScreen(
     }
 }
 
+private fun loginWithKakaoNickName(token: OAuthToken, viewModel: MainViewModel) {
+    UserApiClient.instance.me { user, error ->
+        when {
+            error != null -> {
+                Log.e("Kakao", "사용저 정보 실패", error)
+            }
+            user != null -> {
+                val imageUrl = user.kakaoAccount?.profile?.thumbnailImageUrl
+                val nickName = user.kakaoAccount?.profile?.nickname
+                viewModel.signIn(AccountInfo(token.accessToken, nickName.orEmpty(), AccountInfo.Type.KAKAO, imageUrl.orEmpty()))
+            }
+        }
+    }
+}
 
+private fun loginKakao(context: Context, kakaoCallback: (OAuthToken?, Throwable?) -> Unit) {
+    if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+        //카카오톡 설치
+        UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+            if (error != null) {
+                Log.e("Kakao", "카카오톡 로그인 실패", error)
+            }
+
+            if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                return@loginWithKakaoTalk
+            }
+
+            UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+        }
+    } else {
+        //카카오톡 미설치
+        UserApiClient.instance.loginWithKakaoAccount(context, callback = kakaoCallback)
+    }
+
+}
 
 private fun handleSignInResult(
     context: Context,
@@ -110,7 +148,7 @@ private fun handleSignInResult(
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
-                    viewModel.signInGoogle(
+                    viewModel.signIn(
                         AccountInfo(
                             account.idToken.orEmpty(),
                             account.displayName.orEmpty(),
