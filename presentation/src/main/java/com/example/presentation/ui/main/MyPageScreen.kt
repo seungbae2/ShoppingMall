@@ -82,8 +82,16 @@ fun MyPageScreen(
 
                 Button(
                     onClick = {
-                        viewModel.signOutGoogle()
-                        firebaseAuth.signOut()
+                        viewModel.signOut()
+                        when (accountInfo?.type) {
+                            AccountInfo.Type.KAKAO -> {
+                                UserApiClient.instance.logout { }
+                            }
+                            AccountInfo.Type.GOOGLE -> {
+                                firebaseAuth.signOut()
+                            }
+                            else -> {}
+                        }
                     }
                 ) {
                     Text(text="로그아웃")
@@ -167,7 +175,7 @@ private fun handleSignInResult(
                         )
                     )
                 } else {
-                    viewModel.signOutGoogle()
+                    viewModel.signOut()
                     firebaseAuth.signOut()
                 }
             }

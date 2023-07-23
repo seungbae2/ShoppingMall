@@ -8,5 +8,5 @@ interface AccountRepository {
 
     suspend fun signIn(accountInfo: AccountInfo)
 
-    suspend fun signOutGoogle()
+    suspend fun signOut()
 }

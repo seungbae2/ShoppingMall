@@ -16,7 +16,7 @@ class AccountUseCase @Inject constructor(
         accountRepository.signIn(accountInfo)
     }
 
-    suspend fun signOutGoogle() {
-        accountRepository.signOutGoogle()
+    suspend fun  signOut() {
+        accountRepository.signOut()
     }
 }

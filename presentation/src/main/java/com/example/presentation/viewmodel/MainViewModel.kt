@@ -43,9 +43,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun signOutGoogle() {
+    fun signOut() {
         viewModelScope.launch {
-            accountUseCase.signOutGoogle()
+            accountUseCase.signOut()
         }
     }
 
