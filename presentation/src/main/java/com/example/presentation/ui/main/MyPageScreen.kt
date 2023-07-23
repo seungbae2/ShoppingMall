@@ -53,6 +53,16 @@ fun MyPageScreen(
             }
         }
     }
+    val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        when {
+            error != null -> {
+                Log.e("Kakao", "카카오 계정 로그인 실패", error)
+            }
+            token != null -> {
+                loginWithKakaoNickName(token, viewModel)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -90,7 +100,7 @@ fun MyPageScreen(
             }
             Button(
                 onClick = {
-
+                    loginKakao(context, kakaoCallback)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
