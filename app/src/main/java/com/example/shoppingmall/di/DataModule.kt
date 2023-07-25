@@ -5,7 +5,6 @@ import com.example.data.repository.CategoryRepositoryImpl
 import com.example.data.repository.MainRepositoryImpl
 import com.example.data.repository.ProductDetailRepositoryImpl
 import com.example.data.repository.SearchRepositoryImpl
-import com.example.data.repository.TestRepositoryImpl
 import com.example.domain.repository.AccountRepository
 import com.example.domain.repository.CategoryRepository
 import com.example.domain.repository.MainRepository
