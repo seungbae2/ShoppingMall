@@ -23,7 +23,11 @@ class MainRepositoryImpl @Inject constructor(
     }
 
     override suspend fun likeProduct(product: Product) {
-        likeDao.insert(product.toLikeProductEntity())
+        if(product.isLike) {
+            likeDao.delete(product.productId)
+        } else {
+            likeDao.insert(product.toLikeProductEntity().copy(isLike = true))
+        }
     }
 
     private fun mappingLike(baseModel: BaseModel, likeProductIds: List<String>) : BaseModel {

@@ -5,7 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,32 +44,43 @@ fun ProductCard(navHostController: NavHostController, presentationVM: ProductVM)
             .shadow(elevation = 10.dp),
         onClick = { presentationVM.openProduct(navHostController, presentationVM.model) }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.product_image),
-                "description",
-                contentScale = ContentScale.Crop,
+        Box(modifier = Modifier.fillMaxWidth()) {
+            IconButton(
+                onClick = { presentationVM.likeProduct(presentationVM.model) },
+                modifier = Modifier.align(Alignment.BottomEnd)
+            ) {
+                Icon(
+                    if (presentationVM.model.isLike) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                    "FavoriteIcon"
+                )
+            }
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)
-            )
-            Text(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                text = presentationVM.model.shop.shopName
-            )
-            Text(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                text = presentationVM.model.productName
-            )
-            Price(presentationVM.model)
+                    .padding(10.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.product_image),
+                    "description",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f)
+                )
+                Text(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    text = presentationVM.model.shop.shopName
+                )
+                Text(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    text = presentationVM.model.productName
+                )
+                Price(presentationVM.model)
+            }
         }
     }
 }
@@ -133,6 +149,10 @@ private fun PreviewProductCard() {
             override fun openProduct(navHostController: NavHostController, product: Product) {
             }
 
+            override fun likeProduct(product: Product) {
+
+            }
+
         }
     )
     )
@@ -167,6 +187,10 @@ private fun PreviewProductCardDiscount() {
             object : ProductDelegate {
                 override fun openProduct(navHostController: NavHostController, product: Product) {
                 }
+
+                override fun likeProduct(product: Product) {
+
+                }
             }
         )
     )
@@ -200,6 +224,10 @@ private fun PreviewProductCardSoldOut() {
                 ),
             object : ProductDelegate {
                 override fun openProduct(navHostController: NavHostController, product: Product) {
+                }
+
+                override fun likeProduct(product: Product) {
+
                 }
             }
         )
