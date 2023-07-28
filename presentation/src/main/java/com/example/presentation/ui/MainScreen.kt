@@ -77,6 +77,7 @@ fun MainBottomNavigationBar(navController: NavController, currentRoute: String?)
         NavigationItem.MainNav.Home,
         NavigationItem.MainNav.Category,
         NavigationItem.MainNav.MyPage,
+        NavigationItem.MainNav.MyLike,
     )
 
     BottomNavigation {
@@ -112,6 +113,9 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
         }
         composable(NavigationRouteName.MAIN_MY_PAGE) {
             MyPageScreen(viewModel = viewModel, googleSignInClient = googleSignInClient)
+        }
+        composable(NavigationRouteName.MAIN_LIKE) {
+
         }
         composable(NavigationRouteName.CATEGORY + "/{category}",
         arguments = listOf(navArgument("category") { type = NavType.StringType})
