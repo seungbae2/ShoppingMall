@@ -7,6 +7,7 @@ import com.example.data.repository.ProductDetailRepositoryImpl
 import com.example.data.repository.SearchRepositoryImpl
 import com.example.domain.repository.AccountRepository
 import com.example.domain.repository.CategoryRepository
+import com.example.domain.repository.LikeRepository
 import com.example.domain.repository.MainRepository
 import com.example.domain.repository.ProductDetailRepository
 import com.example.domain.repository.SearchRepository
@@ -20,10 +21,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
-
-    @Binds
-    @Singleton
-    fun bindTestRepository(testRepository: TestRepositoryImpl) : TestRepository
 
     @Binds
     @Singleton
@@ -44,4 +41,8 @@ interface DataModule {
     @Binds
     @Singleton
     fun bindAccountRepository(accountRepository: AccountRepositoryImpl) : AccountRepository
+
+    @Binds
+    @Singleton
+    fun bindLikeRepository(likeRepository: LikeRepository) : LikeRepository
 }
