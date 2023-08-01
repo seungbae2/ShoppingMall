@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.domain.model.Category
 import com.example.presentation.ui.category.CategoryScreen
+import com.example.presentation.ui.main.LikeScreen
 import com.example.presentation.ui.main.MainCategoryScreen
 import com.example.presentation.ui.main.MainHomeScreen
 import com.example.presentation.ui.main.MyPageScreen
@@ -115,7 +116,7 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
             MyPageScreen(viewModel = viewModel, googleSignInClient = googleSignInClient)
         }
         composable(NavigationRouteName.MAIN_LIKE) {
-
+            LikeScreen(navController, viewModel)
         }
         composable(NavigationRouteName.CATEGORY + "/{category}",
         arguments = listOf(navArgument("category") { type = NavType.StringType})

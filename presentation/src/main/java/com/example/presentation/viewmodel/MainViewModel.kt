@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import com.example.domain.model.*
 import com.example.domain.usecase.AccountUseCase
 import com.example.domain.usecase.CategoryUseCase
+import com.example.domain.usecase.LikeUseCase
 import com.example.domain.usecase.MainUseCase
 import com.example.presentation.delegate.BannerDelegate
 import com.example.presentation.delegate.CategoryDelegate
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val mainUseCase: MainUseCase,
     categoryUseCase: CategoryUseCase,
-    private val accountUseCase: AccountUseCase
+    private val accountUseCase: AccountUseCase,
+    likeUseCase: LikeUseCase
 ) : ViewModel(), ProductDelegate, BannerDelegate, CategoryDelegate{
 
     private val _columnCount = MutableStateFlow(DEFAULT_COLUMN_COUNT)
@@ -33,6 +35,9 @@ class MainViewModel @Inject constructor(
     val modelList = mainUseCase.getModelList().map(::convertToPresentationVM)
     val categories = categoryUseCase.getCategories()
     val accountInfo = accountUseCase.getAccountInfo()
+
+    val likeProducts = likeUseCase.getLikeProducts().map(::convertToPresentationVM)
+
     fun openSearchForm(navHostController: NavHostController) {
         NavigationUtils.navigate(navHostController, NavigationRouteName.SEARCH)
     }
