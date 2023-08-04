@@ -1,3 +1,3 @@
 # Shopping Mall
 
-## fastcampus 강의 예제
+## fast campus 강의 예제
