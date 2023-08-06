@@ -110,7 +110,7 @@ fun ProductDetailScreen(productId: String, viewModel: ProductDetailViewModel = h
             verticalAlignment = Alignment.Bottom
         ) {
             Text(
-                text = "${product?.price?.finalPrice}",
+                text = "${product?.price?.finalPrice} 원",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -118,7 +118,7 @@ fun ProductDetailScreen(productId: String, viewModel: ProductDetailViewModel = h
             Spacer(modifier = Modifier.width(12.dp))
 
             Button(
-                onClick = { viewModel.addCard(productId) },
+                onClick = { viewModel.addBasket(product) },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Purple200
                 ),
