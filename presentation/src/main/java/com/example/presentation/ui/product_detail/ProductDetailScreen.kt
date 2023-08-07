@@ -17,7 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -32,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.presentation.R
 import com.example.presentation.ui.theme.Purple200
+import com.example.presentation.utils.NumberUtils
 import com.example.presentation.viewmodel.product_detail.ProductDetailViewModel
 
 @Composable
@@ -70,8 +74,7 @@ fun ProductDetailScreen(productId: String, viewModel: ProductDetailViewModel = h
                 verticalArrangement = Arrangement.Top
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(10.dp)
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Card(
                         modifier = Modifier
@@ -85,17 +88,21 @@ fun ProductDetailScreen(productId: String, viewModel: ProductDetailViewModel = h
                             contentScale = ContentScale.Crop
                         )
                     }
+                    Spacer(modifier = Modifier.width(12.dp))
                     Text(
                         text = "${product?.shop?.shopName} 에서 판매중인 상품",
                         fontSize = 16.sp
                     )
                 }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
                 Text(
                     text = "${product?.productName}",
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
                     text = "${product?.productName}의 상품 상세 페이지 설명글 입니다.",
@@ -107,10 +114,10 @@ fun ProductDetailScreen(productId: String, viewModel: ProductDetailViewModel = h
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.Bottom
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${product?.price?.finalPrice} 원",
+                text = "${NumberUtils.numberFormatPrice(product?.price?.finalPrice)} 원",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -124,12 +131,16 @@ fun ProductDetailScreen(productId: String, viewModel: ProductDetailViewModel = h
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(5.dp),
-                    fontSize = 16.sp,
-                    text= "카트에 담기"
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Filled.ShoppingCart, "ShoppingCartIcon")
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp),
+                        fontSize = 16.sp,
+                        text= "카트에 담기"
+                    )
+                }
             }
         }
     }
