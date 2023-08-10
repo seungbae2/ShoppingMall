@@ -42,6 +42,10 @@ class MainViewModel @Inject constructor(
         NavigationUtils.navigate(navHostController, NavigationRouteName.SEARCH)
     }
 
+    fun openBasket(navHostController: NavHostController) {
+        NavigationUtils.navigate(navHostController, NavigationRouteName.BASKET)
+    }
+
     fun signIn(accountInfo: AccountInfo) {
         viewModelScope.launch {
             accountUseCase.signIn(accountInfo)

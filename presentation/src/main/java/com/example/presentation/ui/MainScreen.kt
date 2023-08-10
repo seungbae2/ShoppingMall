@@ -4,6 +4,7 @@ package com.example.presentation.ui
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,6 +69,12 @@ fun MainHeader(viewModel : MainViewModel, navController: NavHostController) {
                 Icon(Icons.Filled.Search, "SearchIcon")
                 
             }
+            IconButton(onClick = {
+                viewModel.openBasket(navController)
+            }) {
+                Icon(Icons.Filled.ShoppingCart, "BasketIcon")
+
+            }
         }
     )
 }
@@ -117,6 +124,9 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
         }
         composable(NavigationRouteName.MAIN_LIKE) {
             LikeScreen(navController, viewModel)
+        }
+        composable(NavigationRouteName.BASKET) {
+
         }
         composable(NavigationRouteName.CATEGORY + "/{category}",
         arguments = listOf(navArgument("category") { type = NavType.StringType})
