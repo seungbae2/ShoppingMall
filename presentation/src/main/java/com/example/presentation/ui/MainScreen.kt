@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.domain.model.Category
+import com.example.presentation.ui.basket.BasketScreen
 import com.example.presentation.ui.category.CategoryScreen
 import com.example.presentation.ui.main.LikeScreen
 import com.example.presentation.ui.main.MainCategoryScreen
@@ -54,7 +55,7 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
             }
         }
     ) {
-        MainNavigationScreen(viewModel = viewModel, navController = navController, googleSignInClient)
+        MainNavigationScreen(viewModel = viewModel, navController = navController, googleSignInClient, scaffoldState)
     }
 }
 
@@ -111,7 +112,12 @@ fun MainBottomNavigationBar(navController: NavController, currentRoute: String?)
 }
 
 @Composable
-fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostController, googleSignInClient: GoogleSignInClient) {
+fun MainNavigationScreen(
+    viewModel: MainViewModel,
+    navController: NavHostController,
+    googleSignInClient: GoogleSignInClient,
+    scaffoldState: ScaffoldState
+) {
     NavHost(navController = navController, startDestination = NavigationRouteName.MAIN_HOME) {
         composable(NavigationRouteName.MAIN_HOME) {
             MainHomeScreen(navController, viewModel)
@@ -126,7 +132,7 @@ fun MainNavigationScreen(viewModel: MainViewModel, navController: NavHostControl
             LikeScreen(navController, viewModel)
         }
         composable(NavigationRouteName.BASKET) {
-
+            BasketScreen(scaffoldState)
         }
         composable(NavigationRouteName.CATEGORY + "/{category}",
         arguments = listOf(navArgument("category") { type = NavType.StringType})
