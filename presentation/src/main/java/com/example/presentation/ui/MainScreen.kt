@@ -134,8 +134,9 @@ fun MainNavigationScreen(
         composable(NavigationRouteName.BASKET) {
             BasketScreen(scaffoldState)
         }
-        composable(NavigationRouteName.CATEGORY + "/{category}",
-        arguments = listOf(navArgument("category") { type = NavType.StringType})
+        composable(
+            NavigationRouteName.CATEGORY + "/{category}",
+            arguments = listOf(navArgument("category") { type = NavType.StringType})
         ) {
             val categoryString = it.arguments?.getString("category")
             val category = Gson().fromJson(categoryString, Category::class.java)

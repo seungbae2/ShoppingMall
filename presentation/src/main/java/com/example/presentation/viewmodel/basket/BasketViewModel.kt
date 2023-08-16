@@ -14,7 +14,7 @@ class BasketViewModel @Inject constructor(
 ) : ViewModel() {
     val basketProducts = basketUseCase.getBasketProducts()
 
-    private fun removeBasketProduct(product: Product) {
+    fun removeBasketProduct(product: Product) {
         viewModelScope.launch {
             basketUseCase.removeBasketProducts(product)
         }
