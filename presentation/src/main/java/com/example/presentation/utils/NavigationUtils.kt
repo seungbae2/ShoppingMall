@@ -41,4 +41,20 @@ object NavigationUtils {
             restoreState = needToRestoreState
         }
     }
+
+    fun navigate2(
+        controller: NavHostController,
+        routeName: String,
+        backStackRouteName: String? = null,
+        isLaunchSingleTop: Boolean = true,
+        needToRestoreState: Boolean = true
+    ) {
+        controller.navigate(routeName) {
+            if(backStackRouteName != null) {
+                popUpTo(backStackRouteName) { saveState = true }
+            }
+            launchSingleTop = isLaunchSingleTop
+            restoreState = needToRestoreState
+        }
+    }
 }

@@ -135,6 +135,17 @@ fun MainNavigationScreen(
             BasketScreen(scaffoldState)
         }
         composable(
+            CategoryNav.routeWithArgName(),
+            arguments = CategoryNav.arguments,
+            deepLinks = CategoryNav.deepLinks
+        ) {
+            val categoryString = it.arguments?.getString("category")
+            val category = CategoryNav.findArgument(it)
+            if(category != null) {
+                CategoryScreen(category = category, navHostController = navController)
+            }
+        }
+        composable(
             NavigationRouteName.CATEGORY + "/{category}",
             arguments = listOf(navArgument("category") { type = NavType.StringType})
         ) {

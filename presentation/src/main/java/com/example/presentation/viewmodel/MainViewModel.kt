@@ -12,6 +12,7 @@ import com.example.presentation.delegate.BannerDelegate
 import com.example.presentation.delegate.CategoryDelegate
 import com.example.presentation.delegate.ProductDelegate
 import com.example.presentation.model.*
+import com.example.presentation.ui.CategoryNav
 import com.example.presentation.ui.NavigationRouteName
 import com.example.presentation.utils.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -79,7 +80,8 @@ class MainViewModel @Inject constructor(
     }
 
     override fun openCategory(navHostController: NavHostController, category: Category) {
-        NavigationUtils.navigate(navHostController, NavigationRouteName.CATEGORY, category)
+//        NavigationUtils.navigate(navHostController, NavigationRouteName.CATEGORY, category)
+        NavigationUtils.navigate2(navHostController, CategoryNav.navigateWithArg(category))
     }
 
     private fun convertToPresentationVM(list: List<BaseModel>): List<PresentationVM<out BaseModel>> {
