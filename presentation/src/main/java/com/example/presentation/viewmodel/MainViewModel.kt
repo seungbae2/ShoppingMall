@@ -14,6 +14,7 @@ import com.example.presentation.delegate.ProductDelegate
 import com.example.presentation.model.*
 import com.example.presentation.ui.CategoryNav
 import com.example.presentation.ui.NavigationRouteName
+import com.example.presentation.ui.ProductDetailNav
 import com.example.presentation.utils.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,7 +73,7 @@ class MainViewModel @Inject constructor(
     }
 
     override fun openProduct(navHostController: NavHostController, product: Product) {
-        NavigationUtils.navigate(navHostController, NavigationRouteName.PRODUCT_DETAIL, product)
+        NavigationUtils.navigate2(navHostController, ProductDetailNav.navigateWithArg(product.productId))
     }
 
     override fun openBanner(bannerId: String) {
@@ -80,7 +81,6 @@ class MainViewModel @Inject constructor(
     }
 
     override fun openCategory(navHostController: NavHostController, category: Category) {
-//        NavigationUtils.navigate(navHostController, NavigationRouteName.CATEGORY, category)
         NavigationUtils.navigate2(navHostController, CategoryNav.navigateWithArg(category))
     }
 

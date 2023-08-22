@@ -146,21 +146,12 @@ fun MainNavigationScreen(
             }
         }
         composable(
-            NavigationRouteName.CATEGORY + "/{category}",
-            arguments = listOf(navArgument("category") { type = NavType.StringType})
+            route = ProductDetailNav.routeWithArgName(),
+            arguments = ProductDetailNav.arguments,
+            deepLinks = ProductDetailNav.deepLinks
         ) {
-            val categoryString = it.arguments?.getString("category")
-            val category = Gson().fromJson(categoryString, Category::class.java)
-            if(category != null) {
-                CategoryScreen(category = category, navHostController = navController)
-            }
-        }
-        composable(NavigationRouteName.PRODUCT_DETAIL+"/{product}",
-        arguments = listOf(navArgument("product"){ type = NavType.StringType })
-        ) {
-            val productString = it.arguments?.getString("product")
-
-            if(productString != null) {
+            val productString = ProductDetailNav.findArgument(it)
+            if (productString != null) {
                 ProductDetailScreen(productString)
             }
         }

@@ -50,6 +50,21 @@ sealed class NavigationItem(open val route: String) {
 
     object BasketNav : NavigationItem(BASKET)
 }
+object SearchNav : Destination {
+    override val route: String = NavigationRouteName.SEARCH
+    override val title: String = NavigationTitle.SEARCH
+    override val deepLinks: List<NavDeepLink> = listOf(
+        navDeepLink { uriPattern = "$DEEP_LINK_SCHEME$route" }
+    )
+}
+
+object BasketNav : Destination {
+    override val route: String = NavigationRouteName.BASKET
+    override val title: String = NavigationTitle.BASKET
+    override val deepLinks: List<NavDeepLink> = listOf(
+        navDeepLink { uriPattern = "$DEEP_LINK_SCHEME$route" }
+    )
+}
 
 object CategoryNav : DestinationArg<Category> {
     override val route: String = NavigationRouteName.CATEGORY
@@ -71,6 +86,29 @@ object CategoryNav : DestinationArg<Category> {
     override fun findArgument(navBackStackEntry: NavBackStackEntry): Category? {
         val categoryString = navBackStackEntry.arguments?.getString(argName)
         return GsonUtils.fromJson<Category>(categoryString)
+    }
+}
+
+object ProductDetailNav : DestinationArg<String> {
+    override val route: String = NavigationRouteName.PRODUCT_DETAIL
+    override val title: String = NavigationTitle.PRODUCT_DETAIL
+    override val argName: String = "productId"
+    override val deepLinks: List<NavDeepLink> = listOf(
+        navDeepLink { uriPattern ="$DEEP_LINK_SCHEME$route/{$argName}" }
+    )
+
+    override val arguments: List<NamedNavArgument> = listOf(
+        navArgument(argName) { type= NavType.StringType}
+    )
+
+    override fun navigateWithArg(item: String): String  {
+        val arg = GsonUtils.toJson(item)
+        return "$route/$arg"
+    }
+
+    override fun findArgument(navBackStackEntry: NavBackStackEntry): String? {
+        val categoryString = navBackStackEntry.arguments?.getString(argName)
+        return GsonUtils.fromJson<String>(categoryString)
     }
 }
 
