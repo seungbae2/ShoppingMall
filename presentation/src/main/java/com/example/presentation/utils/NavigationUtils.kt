@@ -5,7 +5,6 @@ import android.os.Parcelable
 import androidx.navigation.NavHostController
 import com.example.domain.model.Category
 import com.example.domain.model.Product
-import com.example.presentation.ui.NavigationItem
 import com.google.gson.Gson
 
 object NavigationUtils {
