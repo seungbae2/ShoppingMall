@@ -38,9 +38,7 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
 
     Scaffold(
         topBar = {
-            if(MainNav.isMainRoute(currentRoute)) {
-                MainHeader(viewModel = viewModel, navController = navController)
-            }
+            MainHeader(viewModel = viewModel, navController = navController, currentRoute)
         },
         scaffoldState = scaffoldState,
         bottomBar = {
@@ -54,21 +52,22 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
 }
 
 @Composable
-fun MainHeader(viewModel : MainViewModel, navController: NavHostController) {
+fun MainHeader(viewModel : MainViewModel, navController: NavHostController, currentRoute: String?) {
     TopAppBar(
-        title = { Text("My App") },
+        title = { Text(NavigationUtils.findDestination(currentRoute).title) },
         actions = {
-            IconButton(onClick = {
-                viewModel.openSearchForm(navController)
-            }) {
-                Icon(Icons.Filled.Search, "SearchIcon")
-                
-            }
-            IconButton(onClick = {
-                viewModel.openBasket(navController)
-            }) {
-                Icon(Icons.Filled.ShoppingCart, "BasketIcon")
+            if(MainNav.isMainRoute(currentRoute)) {
+                IconButton(onClick = {
+                    viewModel.openSearchForm(navController)
+                }) {
+                    Icon(Icons.Filled.Search, "SearchIcon")
 
+                }
+                IconButton(onClick = {
+                    viewModel.openBasket(navController)
+                }) {
+                    Icon(Icons.Filled.ShoppingCart, "BasketIcon")
+                }
             }
         }
     )
