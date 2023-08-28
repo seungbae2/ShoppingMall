@@ -3,6 +3,7 @@ package com.example.presentation.ui
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
@@ -55,6 +56,15 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
 fun MainHeader(viewModel : MainViewModel, navController: NavHostController, currentRoute: String?) {
     TopAppBar(
         title = { Text(NavigationUtils.findDestination(currentRoute).title) },
+        navigationIcon = if (!MainNav.isMainRoute(currentRoute)) {
+            {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = "back")
+                }
+            }
+        } else {
+            null
+        },
         actions = {
             if(MainNav.isMainRoute(currentRoute)) {
                 IconButton(onClick = {
