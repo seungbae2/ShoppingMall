@@ -147,6 +147,12 @@ fun MainNavigationScreen(
         ) {
             BasketScreen(scaffoldState)
         }
+        composable(
+            route = PurchaseHistoryNav.route,
+            deepLinks = BasketNav.deepLinks
+        ) {
+            //
+        }
         composable(SearchNav.route) {
             SearchScreen(navController)
         }
