@@ -15,6 +15,7 @@ import com.example.presentation.model.*
 import com.example.presentation.ui.BasketNav
 import com.example.presentation.ui.CategoryNav
 import com.example.presentation.ui.ProductDetailNav
+import com.example.presentation.ui.PurchaseHistoryNav
 import com.example.presentation.ui.SearchNav
 import com.example.presentation.utils.NavigationUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,6 +48,10 @@ class MainViewModel @Inject constructor(
 
     fun openBasket(navHostController: NavHostController) {
         NavigationUtils.navigate(navHostController, BasketNav.route)
+    }
+
+    fun openPurchaseHistory(navHostController: NavHostController) {
+        NavigationUtils.navigate(navHostController, PurchaseHistoryNav.route)
     }
 
     fun signIn(accountInfo: AccountInfo) {

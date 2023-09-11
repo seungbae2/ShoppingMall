@@ -17,7 +17,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImagePainter.State.Empty.painter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -47,7 +51,8 @@ import com.kakao.sdk.user.UserApiClient
 @Composable
 fun MyPageScreen(
     viewModel: MainViewModel,
-    googleSignInClient: GoogleSignInClient
+    googleSignInClient: GoogleSignInClient,
+    navHostController: NavHostController
 ) {
     val accountInfo by viewModel.accountInfo.collectAsState()
     val firebaseAuth by lazy { FirebaseAuth.getInstance() }
@@ -100,9 +105,27 @@ fun MyPageScreen(
             Text(
                 text = accountInfo?.name.orEmpty(),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(10.dp)
             )
+
+            Spacer(modifier = Modifier.height(50.dp))
+            Button(
+                onClick = {
+                    viewModel.openPurchaseHistory(navHostController = navHostController)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Text(
+                    text = "결제내역 보기",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+                Icon(Icons.Filled.ArrowForward, contentDescription = "")
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -119,7 +142,8 @@ fun MyPageScreen(
                         else -> {}
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(10.dp)
             ) {
                 Text(text="로그아웃")

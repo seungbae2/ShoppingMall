@@ -139,7 +139,7 @@ fun MainNavigationScreen(
             route = MainNav.MyPage.route,
             deepLinks = MainNav.MyPage.deepLinks
         ) {
-            MyPageScreen(viewModel = viewModel, googleSignInClient = googleSignInClient)
+            MyPageScreen(viewModel = viewModel, googleSignInClient = googleSignInClient, navHostController = navController)
         }
         composable(
             route = BasketNav.route,
