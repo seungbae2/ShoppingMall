@@ -21,6 +21,7 @@ import com.example.presentation.ui.main.MainCategoryScreen
 import com.example.presentation.ui.main.MainHomeScreen
 import com.example.presentation.ui.main.MyPageScreen
 import com.example.presentation.ui.product_detail.ProductDetailScreen
+import com.example.presentation.ui.purchase_history.PurchaseHistoryScreen
 import com.example.presentation.ui.search.SearchScreen
 import com.example.presentation.utils.NavigationUtils
 import com.example.presentation.viewmodel.MainViewModel
@@ -151,7 +152,7 @@ fun MainNavigationScreen(
             route = PurchaseHistoryNav.route,
             deepLinks = BasketNav.deepLinks
         ) {
-            //
+            PurchaseHistoryScreen()
         }
         composable(SearchNav.route) {
             SearchScreen(navController)
