@@ -2,6 +2,7 @@ package com.example.presentation.viewmodel.basket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.BasketProduct
 import com.example.domain.model.Product
 import com.example.domain.usecase.BasketUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,12 @@ class BasketViewModel @Inject constructor(
     fun removeBasketProduct(product: Product) {
         viewModelScope.launch {
             basketUseCase.removeBasketProducts(product)
+        }
+    }
+
+    fun checkoutBasket(products: List<BasketProduct>) {
+        viewModelScope.launch {
+            basketUseCase.checkBasket(products)
         }
     }
 }
