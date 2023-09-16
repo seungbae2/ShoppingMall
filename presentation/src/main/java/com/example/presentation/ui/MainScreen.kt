@@ -1,6 +1,8 @@
 package com.example.presentation.ui
 
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -8,6 +10,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -26,6 +30,8 @@ import com.example.presentation.ui.search.SearchScreen
 import com.example.presentation.utils.NavigationUtils
 import com.example.presentation.viewmodel.MainViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -46,6 +52,14 @@ fun MainScreen(googleSignInClient: GoogleSignInClient) {
         bottomBar = {
             if(MainNav.isMainRoute(currentRoute)) {
                 MainBottomNavigationBar(navController, currentRoute)
+            }
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = scaffoldState.snackbarHostState) { data ->
+                Snackbar(
+                    snackbarData = data, modifier = Modifier.padding(50.dp),
+                    shape = RoundedCornerShape(10.dp)
+                )
             }
         }
     ) {
@@ -178,5 +192,17 @@ fun MainNavigationScreen(
                 ProductDetailScreen(productString)
             }
         }
+    }
+}
+
+fun popupSnackBar(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    message: String,
+    onDismissCallback: () -> Unit = {}
+) {
+    scope.launch {
+        scaffoldState.snackbarHostState.showSnackbar(message = message)
+        onDismissCallback.invoke()
     }
 }
