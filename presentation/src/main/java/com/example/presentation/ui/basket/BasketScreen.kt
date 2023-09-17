@@ -22,8 +22,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -37,9 +39,13 @@ import com.example.domain.model.BasketProduct
 import com.example.domain.model.Product
 import com.example.presentation.R
 import com.example.presentation.ui.component.Price
+import com.example.presentation.ui.popupSnackBar
 import com.example.presentation.ui.theme.Purple200
 import com.example.presentation.utils.NumberUtils
+import com.example.presentation.viewmodel.basket.BasketAction
+import com.example.presentation.viewmodel.basket.BasketEvent
 import com.example.presentation.viewmodel.basket.BasketViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun BasketScreen(
@@ -47,6 +53,16 @@ fun BasketScreen(
     viewModel: BasketViewModel = hiltViewModel()
 ) {
     val basketProducts by viewModel.basketProducts.collectAsState(initial = listOf())
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is BasketEvent.ShowSnackBar -> {
+                    popupSnackBar(scope, scaffoldState, "결제 되었습니다.")
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -61,14 +77,14 @@ fun BasketScreen(
         ) {
             items(basketProducts.size) { index ->
                 BasketProductCard(basketProduct = basketProducts[index]) {
-                    viewModel.removeBasketProduct(it)
+                    viewModel.dispatch(BasketAction.RemoveProduct(it))
                 }
             }
         }
         Button(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-
+                viewModel.dispatch(BasketAction.CheckoutBasket(basketProducts))
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Purple200
